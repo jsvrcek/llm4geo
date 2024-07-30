@@ -1,0 +1,75 @@
+version: '3.4'
+
+x-app: &default-app
+  # Need host user so don't run into permissions issues.
+  user: "${GEO_UID}:${GEO_GID}"
+  restart: always
+  stop_grace_period: "3s"
+  extra_hosts:
+    - "${SITE_NAME}:host-gateway"
+  healthcheck:
+    interval: 1m
+    timeout: 10s
+    retries: 3
+    start_period: 10s
+
+x-default-env: &default-env
+
+  DJANGO_SECRET_KEY: your_secret_key
+  DJANGO_DEBUG: "True"
+  MINIO_ROOT_USER: AWS_ID
+  MINIO_ROOT_PASSWORD: AWS_SECRET
+  OPENAI_API_TOKEN:
+  POSTGRES_DB: llm4geo
+  POSTGRES_HOST: db
+  POSTGRES_PORT: 5432
+  POSTGRES_PASSWORD: llm4geo_password
+  POSTGRES_USER: llm4geo_user
+  PGDATA: /opt/data
+  SITE_NAME:
+
+services:
+
+  db:
+    image: imresamu/postgis:15-3.3.6-alpine3.20
+    environment:
+      <<: *default-env
+    ports:
+      - '5432:5432'
+    volumes:
+      - "db:/opt/data"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-d", "llm4geo" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+
+  api:
+    <<: *default-app
+    image: llm4geo-api:latest
+    build:
+      dockerfile: api.Dockerfile
+      context: .
+    command: "gunicorn llm4geo.wsgi:application -w 4 -b 0.0.0.0:8000 --no-sendfile --reload"
+    ports:
+      - "8000:8000"
+    volumes:
+      - './:/app/.'
+    working_dir: '/app'
+    depends_on:
+      - db
+    environment:
+      <<: *default-env
+    healthcheck:
+      test: [ "CMD-SHELL", "curl", "http://localhost:8000" ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+
+
+volumes:
+  minio_data:
+  db:
+
+networks:
+  cloud:
