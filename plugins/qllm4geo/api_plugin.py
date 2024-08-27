@@ -5,30 +5,27 @@ from qgis.gui import QgisInterface
 import os
 from .api_input_dialog import ApiInputDialog
 
+
 class ApiPlugin:
     def __init__(self, iface: QgisInterface):
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__)
         self.actions = []
-        self.menu = self.tr("&API Plugin")
+        self.menu = self.tr("&LLM4Geo")
 
     def tr(self, message):
-        return QCoreApplication.translate('ApiPlugin', message)
+        return QCoreApplication.translate("ApiPlugin", message)
 
     def initGui(self):
-        icon_path = ':/plugins/api_plugin/icon.png'
+        icon_path = ":/plugins/api_plugin/icon.png"
         self.add_action(
             icon_path,
-            text=self.tr("Open API Input Window"),
+            text=self.tr("Open Chat Window"),
             callback=self.run,
-            parent=self.iface.mainWindow())
+            parent=self.iface.mainWindow(),
+        )
 
-    def add_action(
-            self,
-            icon_path,
-            text,
-            callback,
-            parent=None):
+    def add_action(self, icon_path, text, callback, parent=None):
         action = QAction(QIcon(icon_path), text, parent)
         action.triggered.connect(callback)
         self.iface.addPluginToMenu(self.menu, action)
@@ -36,7 +33,7 @@ class ApiPlugin:
 
     def unload(self):
         for action in self.actions:
-            self.iface.removePluginMenu(self.tr("&API Plugin"), action)
+            self.iface.removePluginMenu(self.tr("&LLM4Geo"), action)
 
     def run(self):
         dialog = ApiInputDialog()

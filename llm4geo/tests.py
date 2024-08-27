@@ -11,4 +11,6 @@ class TestChatExportsView(TestCase):
 
     @override_settings(LLM_MODEL=mocked_model)
     def test_post(self):
-        self.assertEquals(self.client.post({"text_input": "some_input"}), self.mocked_response)
+        self.assertEquals(
+            self.client.post({"text_input": "some_input"}), self.mocked_response
+        )

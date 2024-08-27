@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
 import os
 from pathlib import Path
 from langchain_openai import ChatOpenAI
@@ -39,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "llm4geo"
+    "llm4geo",
 ]
 
 MIDDLEWARE = [
@@ -125,6 +126,12 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LLM_MODEL = {"openai": ChatOpenAI}[os.getenv("LLM_MODEL")] if os.getenv("LLM_MODEL") else ChatOpenAI
+LLM_MODEL = (
+    {"openai": ChatOpenAI}[os.getenv("LLM_MODEL")]
+    if os.getenv("LLM_MODEL")
+    else ChatOpenAI
+)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo-0125")
+if LLM_MODEL == ChatOpenAI and not OPENAI_API_KEY:
+    raise Exception("LLM_MODEL is set to 'openai' but not OPENAI_API_KEY was provided")
