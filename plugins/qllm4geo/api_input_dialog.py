@@ -98,7 +98,7 @@ class ApiInputDialog(QDialog):
         self.submit_button.setText('Retry')
         self.apply_button.setEnabled(True)
         if response['mapped_function']['parameters']:
-            self.response_field.append(f"\n I can do that using these parameters: \n {response['mapped_function']['parameters']}\n")
+            self.response_field.append(f"\n I can do that using {response['mapped_function']}({response['mapped_function']['parameters']})")
         else:
             self.response_field.append(f"I can do that now.")
         self.response_field.append(f"Click apply or retry.")
