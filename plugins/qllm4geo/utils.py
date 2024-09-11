@@ -6,6 +6,7 @@ from qgis.core import Qgis, QgsMessageLog, QgsProject, QgsVectorLayer, QgsGradua
     QgsCategorizedSymbolRenderer, QgsRuleBasedRenderer, QgsPointXY, QgsCoordinateReferenceSystem, \
     QgsCoordinateTransform, \
     QgsApplication
+
 from qgis.utils import iface
 
 from typing import Literal

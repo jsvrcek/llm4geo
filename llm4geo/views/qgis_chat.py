@@ -1,19 +1,17 @@
 import json
-from copy import deepcopy
 
 import jsonschema
 from django.conf import settings
 from django.http import JsonResponse
 from jsonschema.exceptions import ValidationError
 from langchain_core.messages import SystemMessage
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import MessagesPlaceholder
 
 from llm4geo.schemas.qgis_project_description import get_qgis_project_description
 from llm4geo.schemas.supported_functions import get_supported_functions, get_function_schema, get_function_name_schema
 from llm4geo.serializers import QGISSerializer
+
 
 class QGISChatView(APIView):
     supported_functions = get_supported_functions()
@@ -82,4 +80,3 @@ class QGISChatView(APIView):
             function_response = self.get_function(function_name, text_input, project_description, chat_history)
         return JsonResponse({"chat": function_name_response['chat'], "function_name": function_name,
                              "parameters": function_response})
-

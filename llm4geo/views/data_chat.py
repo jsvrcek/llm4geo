@@ -11,6 +11,7 @@ from llm4geo.serializers import TextInputSerializer
 class DataChatView(APIView):
     system = """You are trying to help people get data.  Geospatial data comes from a variety of sources including the USGS and OpenStreetMap.  Users will want these datasets in formats which can be used in their preferred geospatial client.
     Datasource needs to be one of "usgs-transportation", "usgs-water", "osm", "landsat", "usgs-imagery", "usgs-elevation" and file format can be one or more options.  File formats should only be recommended for data types they support.  If a user wants feature data such as roads, buildings or any descriptive geographical information then a format that supports feature data should be recommended such as gpkg or shapefile, whichever supports their desired use case the best.  If the user isn't sure which format makes sense for feature data, then geopackage is typically a good recommendation.  If the user wants imagery data (or other kinds of raster data) then they likely want landsat data.  Geotiff (gtiff) or geopackage (gpkg) would be good choices for that data type. KML is a file format that supports embedded styles and works with Google Earth and ATAK.  Elevation data is only supported by gtiff.
+
     Here are some examples.
 
     Example User: I need data for Africa. 
@@ -44,7 +45,6 @@ class DataChatView(APIView):
                                 - usgs-imagery: High quality imagery that is only available in the US
                                 - usgs-elevation: High quality elevation data that is only available in the US
                                 """
-
             },
             "fileFormat": {
                 "type": "array",
