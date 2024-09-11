@@ -49,12 +49,7 @@ function_map = {"add_map_layer": add_map_layer, "add_feature_layer": add_feature
                 "go_to_location": go_to_location,
                 "remove_all_map_layers": remove_all_map_layers}
 
-
-class MappedFunction(TypedDict):
-    function_name: Literal["addMapLayer", "removeAllMapLayers"]
-    parameters: dict
-
-
 class ChatResponse(TypedDict):
     chat: str
-    mapped_function: MappedFunction
+    function_name: Literal["addMapLayer", "removeAllMapLayers"]
+    parameters: dict
