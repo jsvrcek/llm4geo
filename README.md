@@ -9,12 +9,18 @@ An api based utility to convert prompts into geospatial related functions.
 
 Docker stuff not setup yet, ignore that.  Eventually postgis and vector embeddings...  
 
-Install the dependencies (preferably in a virtual environment)
+Install the dependencies (preferably in a virtual environment or using conda)
  ```bash
   python -m venv 
   venv source venv/bin/activate
   pip install -r requirements.txt
   ```
+OR  (I like this because it will also install QGIS which is helpful for resolving QGIS dependencies and developing QGIS plugin)
+```bash
+conda env create
+conda activate llm4geo
+```
+
 Run the API using the dev server, `python manage.py runserver`
 
 Copy the qllm4geo folder into your QGIS plugin directory. 
@@ -33,5 +39,4 @@ When you start QGIS you should see qllm4geo in your plugins (you may need to ena
 When enabled you should see the widget in your workspace.
 ![Screenshot of the qllm4geo widget displayed](docs/assets/Widget.png)
 
-Thanks to Shane Brennan for his work on CartoBot which inspired this project. 
-
+Thanks to Shane Brennan for his work on CartoBot which inspired this project.

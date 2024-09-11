@@ -7,6 +7,7 @@ from jsonschema.exceptions import ValidationError
 from langchain_core.messages import SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.prompts import MessagesPlaceholder
+from rest_framework.views import APIView
 
 from llm4geo.schemas.qgis_project_description import get_qgis_project_description
 from llm4geo.schemas.supported_functions import get_supported_functions, get_function_schema, get_function_name_schema
